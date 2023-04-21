@@ -12,9 +12,7 @@ class CallUseCaseImplementation (private val callRepository: CallRepository) : C
         return try{
             CallResponse(call = callRepository.create(call))
         } catch (e: Exception) {
-            CallResponse(message = CALL_STORAGE_ERROR)
+            CallResponse(message = e)
         }
     }
-
-
 }
