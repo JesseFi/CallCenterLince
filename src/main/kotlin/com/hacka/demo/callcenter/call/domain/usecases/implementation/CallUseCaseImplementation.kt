@@ -15,4 +15,12 @@ class CallUseCaseImplementation (private val callRepository: CallRepository) : C
             CallResponse(message = e)
         }
     }
+
+    override fun create(call: Call): CallResponse {
+        return try{
+            CallResponse(call = callRepository.create(call))
+        } catch (e: Exception) {
+            CallResponse(message = e)
+        }
+    }
 }

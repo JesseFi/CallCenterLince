@@ -5,6 +5,7 @@ import com.hacka.demo.callcenter.call.domain.usecases.response.CallFilter
 import java.util.*
 
 interface CallRepository {
+
         fun create (call: Call): Call?
         fun listCalls (page: Int, size: Int, sorby: Int, orderBy: Int, callFilter: CallFilter): Call?
         fun getCallById (uuid: UUID): Call?
