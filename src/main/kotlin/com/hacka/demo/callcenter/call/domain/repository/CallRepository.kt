@@ -1,6 +1,7 @@
 package com.hacka.demo.callcenter.call.domain.repository
 
 import com.hacka.demo.callcenter.call.domain.entities.Call
+import com.hacka.demo.callcenter.call.domain.usecases.response.CallFilter
 import java.util.*
 
 interface CallRepository {
