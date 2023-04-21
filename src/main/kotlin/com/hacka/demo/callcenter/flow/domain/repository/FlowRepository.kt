@@ -1,4 +1,4 @@
-package br.com.lince.singe.callcenter.flow.domain.repository
+package com.hacka.demo.callcenter.flow.domain.repository
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 

@@ -1,18 +1,16 @@
 package com.hacka.demo.callcenter.flow.infra.repository.impl
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
-import br.com.lince.singe.callcenter.flow.domain.repository.FlowRepository
+import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
 import com.hacka.demo.callcenter.flow.infra.repository.database.FlowDatabase
-import com.hacka.demo.callcenter.flow.infra.repository.database.FlowDatabase.number
-import com.hacka.demo.callcenter.flow.infra.repository.database.FlowDatabase.uuid
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 import java.util.*
 
-@Service
-class FlowRepositoryImplementation() : FlowRepository {
+@Repository
+class FlowRepositoryImplementation : FlowRepository {
     override fun listAllFlow(): List<Flow>? {
          val flow: MutableList<Flow> = mutableListOf()
          return transaction {
