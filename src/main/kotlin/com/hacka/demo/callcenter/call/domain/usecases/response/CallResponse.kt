@@ -5,7 +5,7 @@ import com.hacka.demo.callcenter.call.domain.exceptions.CallException
 
 data class CallResponse(
     val call: Call? = null,
-    val message: Exception = null
+    val message: Exception? = null
 )
 
 data class CallListResponse(

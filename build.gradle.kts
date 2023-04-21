@@ -7,7 +7,7 @@ plugins {
 	kotlin("plugin.spring") version "1.7.22"
 }
 
-group = "com.hacka"
+group = "com.hacka.demo"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -24,9 +24,12 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("org.jetbrains.exposed", "exposed-core", "0.38.1")
-	implementation("org.jetbrains.exposed", "exposed-jdbc", "0.38.1")
-	implementation("org.jetbrains.exposed", "exposed-dao", "0.38.1")
+
+	val exposedVersion = "0.40.1"
+	implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
 }
 
 tasks.withType<KotlinCompile> {

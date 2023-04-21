@@ -1,7 +1,6 @@
 package com.hacka.demo.callcenter.call.domain.entities
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
-import br.com.lince.singe.callcenter.packing.domain.entities.Packing
 import java.time.LocalDateTime
 import java.util.*
 

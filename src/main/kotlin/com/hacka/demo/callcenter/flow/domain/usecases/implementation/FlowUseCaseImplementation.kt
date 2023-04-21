@@ -1,16 +1,27 @@
-package br.com.lince.singe.callcenter.flow.domain.usecases.implementation
+package com.hacka.demo.callcenter.flow.domain.usecases.implementation
 
+import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import br.com.lince.singe.callcenter.flow.domain.repository.FlowRepository
-import br.com.lince.singe.callcenter.packing.domain.usecases.response.FlowFilter
 import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
+import com.hacka.demo.callcenter.flow.domain.usecases.response.AllFlowResponse
 import com.hacka.demo.callcenter.flow.domain.usecases.response.FlowResponse
 import org.springframework.stereotype.Service
 
 @Service
 class FlowUseCaseImplementation (private val flowRepository: FlowRepository) : FlowUseCase {
-    override fun listAllFlow(flowFilter: FlowFilter): FlowResponse {
-        TODO("Not yet implemented")
+    override fun listAllFlow(): AllFlowResponse {
+        return try {
+            AllFlowResponse(flow = flowRepository.listAllFlow())
+        } catch (error: Exception) {
+            AllFlowResponse(message = error)
+        }
     }
 
-
+    override fun create(flow: Flow): FlowResponse {
+        return try {
+            FlowResponse(flow = flowRepository.create(flow))
+        } catch (error: Exception) {
+            FlowResponse(message = error)
+        }
+    }
 }
