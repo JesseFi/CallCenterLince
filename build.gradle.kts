@@ -24,6 +24,9 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.jetbrains.exposed", "exposed-core", "0.38.1")
+	implementation("org.jetbrains.exposed", "exposed-jdbc", "0.38.1")
+	implementation("org.jetbrains.exposed", "exposed-dao", "0.38.1")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,7 +1,6 @@
 package br.com.lince.singe.callcenter.flow.infra.repository.database
 
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.javatime.datetime
 
 object FlowDatabase : Table("flow") {
 
