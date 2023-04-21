@@ -1,6 +1,6 @@
 package br.com.lince.singe.callcenter.packing.domain.usecases.response
 
-class PackingFilter(
+class FlowFilter(
     val name: String,
     val value: String,
 ) {
