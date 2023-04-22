@@ -3,6 +3,7 @@ package com.hacka.demo.callcenter.flow.domain.infra.webservice.impl
 import com.hacka.demo.callcenter.call.domain.entities.Call
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
+import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
 import com.hacka.demo.callcenter.flow.infra.webservice.CallService
 import org.springframework.web.bind.annotation.*
 
@@ -15,8 +16,8 @@ class CallServiceImplementation(private val CallUseCase: CallUseCase) : CallServ
     override fun create(@RequestBody call: Call): CallResponse {
         return CallUseCase.create(call)
     }
-    /*@GetMapping("/call")
+    @GetMapping("/call")
     override fun listaAllCall(): AllCallResponse {
         return FlowUseCase.listAllFlow()
-    }*/
+    }
 }
