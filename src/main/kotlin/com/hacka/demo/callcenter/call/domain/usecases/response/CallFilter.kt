@@ -1,4 +1,4 @@
-package com.hacka.demo.callcenter.call.domain.usecases.response
+package br.com.lince.singe.callcenter.packing.domain.usecases.response
 
 class CallFilter(
     val name: String,
