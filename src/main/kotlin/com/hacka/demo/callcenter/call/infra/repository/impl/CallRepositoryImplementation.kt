@@ -24,6 +24,7 @@ class CallRepositoryImplementation : CallRepository {
                 //it[flow_id] = call.flow!!.uuid!!
                 it[contact] = call.contact!!
                 it[priority] = call.priority!!
+                it[situation] = call.situation!!
                 it[author] = call.author!!
                 it[originProblemN] = call.originProblemN!!
                 it[originProblemS] = call.originProblemS!!
@@ -45,8 +46,10 @@ class CallRepositoryImplementation : CallRepository {
                     contact = it[CallDatabase.contact],
                     priority = it[CallDatabase.priority],
                     author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
+                    richText = it[CallDatabase.richText]
                 )
             }
         }
@@ -63,6 +66,7 @@ class CallRepositoryImplementation : CallRepository {
                     contact = it[CallDatabase.contact],
                     priority = it[CallDatabase.priority],
                     author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
                     richText = it[CallDatabase.richText]

@@ -10,8 +10,9 @@ class Call(
     var flow: UUID? = null,
     var contact: String? = "",
     var priority: Int? = 0,
-    //var createDate: LocalDateTime? = null,
+    var createDate: LocalDateTime? = null,
     var author: String? = "",
+    var situation: Int? = 0,
     var originProblemN: Int? = 0,
     var originProblemS: String? = "",
     var richText: String? = ""

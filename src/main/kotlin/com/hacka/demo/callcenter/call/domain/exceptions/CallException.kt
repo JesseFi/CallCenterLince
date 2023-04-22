@@ -4,4 +4,4 @@ val PACKING_STORAGE_ERROR = CallException("CALL_STORAGE_ERROR", "Um erro ocorreu
 class CallException (
     code: String,
     description: String
-) : Exception("packing-module")
+) : Exception("Call-module")
