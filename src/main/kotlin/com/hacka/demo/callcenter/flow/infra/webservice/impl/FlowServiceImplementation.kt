@@ -1,4 +1,4 @@
-package com.hacka.demo.callcenter.flow.domain.infra.webservice.impl
+package com.hacka.demo.callcenter.flow.infra.webservice.impl
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@CrossOrigin(origins = ["http://10.0.11.76:3000"], allowCredentials = "true")
-class FlowServiceImplementation(private val FlowUseCase: FlowUseCase) : FlowService {
+@CrossOrigin("*")
+@RequestMapping("/flow")
+class FlowServiceImplementation(
+    val flowUseCase: FlowUseCase
+) : FlowService {
 
-    @PostMapping("/flow/create")
+    @PostMapping("/create")
     override fun create(@RequestBody flow: Flow): FlowResponse {
-        return FlowUseCase.create(flow)
+        return flowUseCase.create(flow)
     }
-    @GetMapping("/flow")
+    @GetMapping
     override fun listAllFlow(): AllFlowResponse {
-        return FlowUseCase.listAllFlow()
+        return flowUseCase.listAllFlow()
     }
 }
