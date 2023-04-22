@@ -10,3 +10,9 @@ data class AllCallResponse(
     val call: List<Call>? = listOf(),
     val message: Exception? = null,
 )
+
+data class CallResponseUpdateSituation(
+    val call: Call? = null,
+    val situation: Int? = null,
+    val message: Exception? = null
+)
