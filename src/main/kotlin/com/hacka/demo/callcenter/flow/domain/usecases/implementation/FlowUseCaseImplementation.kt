@@ -1,6 +1,7 @@
 package com.hacka.demo.callcenter.flow.domain.usecases.implementation
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
+import br.com.lince.singe.callcenter.flow.domain.exceptions.FLOW_NOT_NULL
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
 import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
 import com.hacka.demo.callcenter.flow.domain.usecases.response.AllFlowResponse
@@ -17,7 +18,14 @@ class FlowUseCaseImplementation (private val flowRepository: FlowRepository) : F
         }
     }
     override fun create(flow: Flow): FlowResponse {
-        TODO("Not yet implemented")
+        return try{
+            if (flow.uuid == null) {
+                FlowResponse(message = FLOW_NOT_NULL)
+            }
+            FlowResponse(flow = flowRepository.create(flow))
+        } catch (e: Exception) {
+            FlowResponse(message = e)
+        }
     }
 }
 

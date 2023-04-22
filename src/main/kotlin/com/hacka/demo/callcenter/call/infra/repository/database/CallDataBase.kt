@@ -8,16 +8,16 @@ import java.time.LocalDateTime
 
 object CallDatabase : Table("call") {
     var uuid = uuid("id").uniqueIndex()
-    var numberCall = integer("number").uniqueIndex().autoIncrement()
+    var numberCall = integer("number").autoIncrement()
     var title = varchar("title", 255)
     var flow_id = uuid("flow_id").references(FlowDatabase.uuid).nullable()
     var contact = varchar("contact", 255)
     var priority = integer("priority")
-    var createDate = datetime("createDate").default(LocalDateTime.now())
+    var createDate = datetime("date_creation").nullable()
     var author = varchar("author", 255)
-    var situation = integer("situation")
     var originProblemN = integer("problemNumber")
     var originProblemS = varchar("problemDescription", 255)
-    var richText = varchar("richText", 500)
+    var richText = varchar("richText", 5000).nullable()
+    var situation = integer("situation")
 
 }

@@ -5,11 +5,12 @@ import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
 import com.hacka.demo.callcenter.flow.domain.usecases.response.AllFlowResponse
 import com.hacka.demo.callcenter.flow.domain.usecases.response.FlowResponse
 import com.hacka.demo.callcenter.flow.infra.webservice.FlowService
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@CrossOrigin(origins = ["http://10.0.11.76:3000"], allowCredentials = "true")
+@CrossOrigin(origins = ["http://10.0.11.76:3000", "http://10.0.11.168:3000"], allowCredentials = "true")
 @RequestMapping("/flow")
 class FlowServiceImplementation(private val FlowUseCase: FlowUseCase) : FlowService {
 

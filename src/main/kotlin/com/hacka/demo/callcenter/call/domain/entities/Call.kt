@@ -15,5 +15,6 @@ class Call(
     var situation: Int? = 0,
     var originProblemN: Int? = 0,
     var originProblemS: String? = "",
-    var richText: String? = ""
+    var richText: String? = "",
+    var situation: Int? = 0
 )
