@@ -1,6 +1,7 @@
 package com.hacka.demo.callcenter.call.domain.usecases.implementation
 
 import com.hacka.demo.callcenter.call.domain.entities.Call
+import com.hacka.demo.callcenter.call.domain.exceptions.NUMBERCALL_NOT_ZEROS
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
@@ -23,7 +24,14 @@ class CallUseCaseImplementation (val callRepository: CallRepository) : CallUseCa
 
     override fun create(call: Call): CallResponse {
         return try{
-            CallResponse(call = callRepository.create(call))
+            if (call.numberCall == 0) {
+                CallResponse(message = NUMBERCALL_NOT_ZEROS)
+            }
+            if (call.uuid == null) {
+                CallResponse(call = callRepository.create(call))
+            } else {
+                CallResponse(call = callRepository.update(call))
+            }
         } catch (e: Exception) {
             CallResponse(message = e)
         }
