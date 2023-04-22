@@ -6,4 +6,4 @@ val FLOW_NOT_EXIST = CallException("FLOW_NOT_EXIST", "Flow doesn't exists!");
 class CallException (
     code: String,
     description: String
-) : Exception("packing-module")
+) : Exception("Call-module")

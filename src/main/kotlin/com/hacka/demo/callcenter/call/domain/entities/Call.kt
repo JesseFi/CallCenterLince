@@ -13,6 +13,7 @@ class Call(
     var priority: Int? = 0,
     var createDate: LocalDateTime? = null,
     var author: String? = "",
+    var situation: Int? = 0,
     var originProblemN: Int? = 0,
     var originProblemS: String? = "",
     var richText: String? = "",

@@ -73,9 +73,10 @@ class CallRepositoryImplementation(
                     priority = it[CallDatabase.priority],
                     createDate = it[CallDatabase.createDate],
                     author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
-                    richText = it[CallDatabase.richText],
+                    richText = it[CallDatabase.richText]
                 )
             }
         }
@@ -96,6 +97,7 @@ class CallRepositoryImplementation(
                     contact = it[CallDatabase.contact],
                     priority = it[CallDatabase.priority],
                     author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
                     richText = it[CallDatabase.richText]
