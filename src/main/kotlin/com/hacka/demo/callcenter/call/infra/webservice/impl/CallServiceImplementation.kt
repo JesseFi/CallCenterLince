@@ -4,6 +4,7 @@ import com.hacka.demo.callcenter.call.domain.entities.Call
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
 import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
+import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponseUpdateSituation
 import com.hacka.demo.callcenter.call.infra.webservice.CallService
 import org.springframework.web.bind.annotation.*
 
@@ -22,9 +23,20 @@ class CallServiceImplementation(private val CallUseCase: CallUseCase) : CallServ
         return CallUseCase.listAllCall()
     }
 
+    @GetMapping("/approver")
+    override fun listAllCallApprover(): AllCallResponse {
+        return CallUseCase.listAllCallApprover()
+    }
+
     @GetMapping("/{numberCall}")
     override fun getCallById(@PathVariable numberCall: Int): CallResponse {
         return CallUseCase.getCallById(numberCall)
     }
+
+    @PostMapping("update/{numberCall}/{situation}")
+    override fun updateSituation(@PathVariable numberCall: Int, @PathVariable situation: Int): CallResponseUpdateSituation? {
+        return CallUseCase.updateSituation(numberCall, situation)
+    }
+
 
 }

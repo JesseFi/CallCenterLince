@@ -5,13 +5,10 @@ import com.hacka.demo.callcenter.call.domain.entities.Call
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.infra.repository.database.CallDatabase
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.neq
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -59,7 +56,7 @@ class CallRepositoryImplementation(
     override fun listAllCall(): List<Call>? {
         val flow: MutableList<Call> = mutableListOf()
         return transaction {
-            CallDatabase.select( CallDatabase.situation neq 1 ).map {
+            CallDatabase.select( (CallDatabase.situation neq 1) and (CallDatabase.situation neq 3)).orderBy(CallDatabase.numberCall, SortOrder.ASC).map {
                 var flow: Flow? = null
                 if (it[CallDatabase.flow_id] != null) {
                     flow = flowRepository.getFlowById(it[CallDatabase.flow_id]!!)
@@ -103,6 +100,42 @@ class CallRepositoryImplementation(
                     richText = it[CallDatabase.richText]
                 )
             }.firstOrNull()!!
+        }
+
+    }
+
+    override fun updateSituation(call: Call, situation: Int): Call? {
+        return transaction {
+            CallDatabase.update({ CallDatabase.uuid eq call.uuid!! }) {
+                it[CallDatabase.situation] = situation!!
+            }
+            call
+        }
+    }
+
+    override fun listAllCallApprover(): List<Call>? {
+        val flow: MutableList<Call> = mutableListOf()
+        return transaction {
+            CallDatabase.select(CallDatabase.situation eq 3).orderBy(CallDatabase.numberCall, SortOrder.ASC).map {
+                var flow: Flow? = null
+                if (it[CallDatabase.flow_id] != null) {
+                    flow = flowRepository.getFlowById(it[CallDatabase.flow_id]!!)
+                }
+                Call(
+                    uuid = it[CallDatabase.uuid],
+                    numberCall = it[CallDatabase.numberCall],
+                    title = it[CallDatabase.title],
+                    flow = flow,
+                    contact = it[CallDatabase.contact],
+                    priority = it[CallDatabase.priority],
+                    createDate = it[CallDatabase.createDate],
+                    author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
+                    originProblemN = it[CallDatabase.originProblemN],
+                    originProblemS = it[CallDatabase.originProblemS],
+                    richText = it[CallDatabase.richText]
+                )
+            }
         }
     }
 }
