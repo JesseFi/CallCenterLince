@@ -4,6 +4,7 @@ import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
 import com.hacka.demo.callcenter.flow.infra.repository.database.FlowDatabase
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository

@@ -38,4 +38,12 @@ class CallUseCaseImplementation (val callRepository: CallRepository) : CallUseCa
             call
         }
     }
+
+    override fun create(call: Call): CallResponse {
+        return try{
+            CallResponse(call = callRepository.create(call))
+        } catch (e: Exception) {
+            CallResponse(message = e)
+        }
+    }
 }
