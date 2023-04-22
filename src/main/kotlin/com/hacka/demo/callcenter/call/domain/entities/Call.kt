@@ -13,5 +13,6 @@ class Call(
     //var createDate: LocalDateTime? = null,
     var author: String? = "",
     var originProblemN: Int? = 0,
-    var originProblemS: String? = ""
+    var originProblemS: String? = "",
+    var richText: String? = ""
 )

@@ -5,23 +5,20 @@ import com.hacka.demo.callcenter.flow.domain.usecases.FlowUseCase
 import com.hacka.demo.callcenter.flow.domain.usecases.response.AllFlowResponse
 import com.hacka.demo.callcenter.flow.domain.usecases.response.FlowResponse
 import com.hacka.demo.callcenter.flow.infra.webservice.FlowService
-import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = ["http://10.0.11.76:3000"], allowCredentials = "true")
 @RequestMapping("/flow")
-class FlowServiceImplementation(
-    val flowUseCase: FlowUseCase
-) : FlowService {
+class FlowServiceImplementation(private val FlowUseCase: FlowUseCase) : FlowService {
 
     @PostMapping("/create")
     override fun create(@RequestBody flow: Flow): FlowResponse {
-        return flowUseCase.create(flow)
+        return FlowUseCase.create(flow)
     }
-    @GetMapping
+    @GetMapping("")
     override fun listAllFlow(): AllFlowResponse {
-        return flowUseCase.listAllFlow()
+        return FlowUseCase.listAllFlow()
     }
 }

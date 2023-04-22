@@ -20,22 +20,20 @@ class CallUseCaseImplementation (val callRepository: CallRepository) : CallUseCa
             AllCallResponse(message = error)
         }
     }
-    override fun create(call: Call): Call? {
-        val idGenerated = UUID.randomUUID()
-        call.uuid = idGenerated
-        return transaction {
-            CallDatabase.insert {
-                it[uuid] = call.uuid!!
-                it[numberCall] = call.numberCall!!
-                it[title] = call.title!!
-                it[flow_id] = call.flow!!.uuid!!
-                it[contact] = call.contact!!
-                it[priority] = call.priority!!
-                it[author] = call.author!!
-                it[originProblemN] = call.originProblemN!!
-                it[originProblemS] = call.originProblemS!!
-            }.resultedValues!!
-            call
+
+    override fun create(call: Call): CallResponse {
+        return try{
+            CallResponse(call = callRepository.create(call))
+        } catch (e: Exception) {
+            CallResponse(message = e)
+        }
+    }
+
+    override fun getCallById(numberCall: Int): CallResponse{
+        return try{
+            CallResponse(call = callRepository.getCallById(numberCall))
+        } catch (e: Exception) {
+            CallResponse(message = e)
         }
     }
 }
