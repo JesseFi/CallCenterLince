@@ -6,4 +6,6 @@ import java.util.UUID
 interface FlowRepository {
     fun listAllFlow(): List<Flow>?
     fun create(flow: Flow): Flow?
+
+    fun getFlowById(uuid: UUID): Flow
 }

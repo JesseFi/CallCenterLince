@@ -1,18 +1,25 @@
 package com.hacka.demo.callcenter.call.domain.usecases.implementation
 
 import com.hacka.demo.callcenter.call.domain.entities.Call
+import com.hacka.demo.callcenter.call.domain.exceptions.FLOW_NOT_EXIST
+import com.hacka.demo.callcenter.call.domain.exceptions.NUMBERCALL_NOT_ZEROS
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
 import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
 import com.hacka.demo.callcenter.call.infra.repository.database.CallDatabase
+import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
+import kotlinx.coroutines.flow.flow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class CallUseCaseImplementation (val callRepository: CallRepository) : CallUseCase {
+class CallUseCaseImplementation (
+    val callRepository: CallRepository,
+    val flowRepository: FlowRepository
+) : CallUseCase {
     override fun listAllCall(): AllCallResponse {
         return try {
             AllCallResponse(call = callRepository.listAllCall())
@@ -20,28 +27,22 @@ class CallUseCaseImplementation (val callRepository: CallRepository) : CallUseCa
             AllCallResponse(message = error)
         }
     }
-    override fun create(call: Call): Call? {
-        val idGenerated = UUID.randomUUID()
-        call.uuid = idGenerated
-        return transaction {
-            CallDatabase.insert {
-                it[uuid] = call.uuid!!
-                it[numberCall] = call.numberCall!!
-                it[title] = call.title!!
-                it[flow_id] = call.flow!!.uuid!!
-                it[contact] = call.contact!!
-                it[priority] = call.priority!!
-                it[author] = call.author!!
-                it[originProblemN] = call.originProblemN!!
-                it[originProblemS] = call.originProblemS!!
-            }.resultedValues!!
-            call
-        }
-    }
 
     override fun create(call: Call): CallResponse {
         return try{
-            CallResponse(call = callRepository.create(call))
+            if (call.uuid == null || call.uuid.toString() == "") {
+                CallResponse(call = callRepository.create(call))
+            } else {
+                CallResponse(call = callRepository.update(call))
+            }
+        } catch (e: Exception) {
+            CallResponse(message = e)
+        }
+    }
+
+    override fun getCallById(numberCall: Int): CallResponse{
+        return try{
+            CallResponse(call = callRepository.getCallById(numberCall))
         } catch (e: Exception) {
             CallResponse(message = e)
         }
