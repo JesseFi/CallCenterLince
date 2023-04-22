@@ -1,17 +1,14 @@
 package com.hacka.demo.callcenter.call.domain.usecases.implementation
 
+import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.call.domain.entities.Call
-import com.hacka.demo.callcenter.call.domain.exceptions.FLOW_NOT_EXIST
-import com.hacka.demo.callcenter.call.domain.exceptions.NUMBERCALL_NOT_ZEROS
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
 import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
-import com.hacka.demo.callcenter.call.infra.repository.database.CallDatabase
+import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponseUpdateSituation
+import com.hacka.demo.callcenter.call.domain.usecases.response.FlowResponse
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
-import kotlinx.coroutines.flow.flow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -28,10 +25,25 @@ class CallUseCaseImplementation (
         }
     }
 
+    override fun listAllCallApprover(): AllCallResponse {
+        return try {
+            AllCallResponse(call = callRepository.listAllCallApprover())
+        } catch (error: Exception) {
+            AllCallResponse(message = error)
+        }
+    }
+
     override fun create(call: Call): CallResponse {
         return try{
             if (call.uuid == null || call.uuid.toString() == "") {
+                val flow: Flow = flowRepository.getFlowById(call.flow!!.uuid!!)
+                if(flow.approver_indicator){
+                    call.situation = 3
+                }else{
+                    call.situation = 0
+                }
                 CallResponse(call = callRepository.create(call))
+
             } else {
                 CallResponse(call = callRepository.update(call))
             }
@@ -46,5 +58,27 @@ class CallUseCaseImplementation (
         } catch (e: Exception) {
             CallResponse(message = e)
         }
+    }
+
+    override fun getFlowById(uuid: UUID): FlowResponse{
+        return try {
+            FlowResponse(flow = callRepository.getFlowById(uuid))
+        } catch (e: Exception){
+            FlowResponse(message = e)
+        }
+    }
+
+
+    override fun updateSituation(numberCall: Int, situation: Int): CallResponseUpdateSituation {
+        return try{
+
+            var call: Call? = null
+            call = callRepository.getCallById(numberCall)
+            call!!.situation = numberCall
+            CallResponseUpdateSituation(callRepository.updateSituation(call, situation))
+        } catch(e: Exception){
+            CallResponseUpdateSituation(message = e)
+        }
+
     }
 }

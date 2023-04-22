@@ -8,4 +8,5 @@ interface FlowRepository {
     fun create(flow: Flow): Flow?
 
     fun getFlowById(uuid: UUID): Flow
+
 }
