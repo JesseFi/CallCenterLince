@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["http://10.0.11.76:3000"], allowCredentials = "true")
+<<<<<<< HEAD
 @RequestMapping("/call")
 class CallServiceImplementation(private val CallUseCase: CallUseCase) : CallService {
 
@@ -22,6 +23,15 @@ class CallServiceImplementation(private val CallUseCase: CallUseCase) : CallServ
         return CallUseCase.create(call)
     }
     @GetMapping("")
+=======
+class CallServiceImplementation(private val CallUseCase: CallUseCase) : CallService {
+
+    @PostMapping("/call/create")
+    override fun create(@RequestBody call: Call): CallResponse {
+        return CallUseCase.create(call)
+    }
+    @GetMapping("/call")
+>>>>>>> call-ruan
     override fun listAllCall(): AllCallResponse {
         return CallUseCase.listAllCall()
     }
