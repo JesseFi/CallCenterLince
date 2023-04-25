@@ -35,13 +35,13 @@ class CallUseCaseImplementation (
 
     override fun create(call: Call): CallResponse {
         return try{
+            val flow: Flow = flowRepository.getFlowById(call.flow!!.uuid!!)
+            if(flow.approver_indicator){
+                call.situation = 3
+            }else{
+                call.situation = 0
+            }
             if (call.uuid == null || call.uuid.toString() == "") {
-                val flow: Flow = flowRepository.getFlowById(call.flow!!.uuid!!)
-                if(flow.approver_indicator){
-                    call.situation = 3
-                }else{
-                    call.situation = 0
-                }
                 CallResponse(call = callRepository.create(call))
 
             } else {
