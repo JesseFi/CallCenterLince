@@ -1,19 +1,13 @@
 package com.hacka.demo.callcenter.call.domain.usecases.implementation
 
+import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.call.domain.entities.Call
-import com.hacka.demo.callcenter.call.domain.exceptions.FLOW_NOT_EXIST
-import com.hacka.demo.callcenter.call.domain.exceptions.NUMBERCALL_NOT_ZEROS
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.domain.usecases.CallUseCase
 import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
 import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
-import com.hacka.demo.callcenter.call.infra.repository.database.CallDatabase
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
-import kotlinx.coroutines.flow.flow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class CallUseCaseImplementation (
@@ -31,6 +25,12 @@ class CallUseCaseImplementation (
     override fun create(call: Call): CallResponse {
         return try{
             if (call.uuid == null || call.uuid.toString() == "") {
+                val flow: Flow = flowRepository.getFlowById(call.flow!!.uuid!!)
+                if (flow.approver_indicator) {
+                    call.situation = 66
+                } else {
+                    call.situation = 99
+                }
                 CallResponse(call = callRepository.create(call))
             } else {
                 CallResponse(call = callRepository.update(call))
