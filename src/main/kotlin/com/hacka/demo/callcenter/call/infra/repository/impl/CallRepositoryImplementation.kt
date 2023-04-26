@@ -71,6 +71,7 @@ class CallRepositoryImplementation(
 
     override fun update(call: Call): Call? {
         return transaction {
+            addLogger(StdOutSqlLogger)
             CallDatabase.update({ CallDatabase.uuid eq call.uuid!! }) {
                 it[title] = call.title!!
                 it[flow_id] = call.flow!!.uuid!!
