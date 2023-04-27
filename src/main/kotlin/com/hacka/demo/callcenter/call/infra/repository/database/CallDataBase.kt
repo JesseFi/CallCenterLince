@@ -18,7 +18,7 @@ object CallDatabase : Table("call") {
     var author = varchar("author", 255)
     var originProblemN = integer("problemNumber")
     var originProblemS = varchar("problemDescription", 255)
-    var richText = varchar("richText", 5000).nullable()
+    var richText = text("richText").nullable()
     var situation = integer("situation")
     var reason = varchar("disapprovalReason", 1000).nullable()
 

@@ -47,11 +47,12 @@ class CallRepositoryImplementation(
     //}
 
     override fun create(call: Call): Call? {
+        println("richText :>>" + call.richText)
         val idGenerated = UUID.randomUUID()
         call.uuid = idGenerated
         return transaction {
-                var flow: Flow? = null
-
+            var flow: Flow? = null
+            addLogger(StdOutSqlLogger)
             CallDatabase.insert {
                 it[uuid] = call.uuid!!
                 it[title] = call.title!!
