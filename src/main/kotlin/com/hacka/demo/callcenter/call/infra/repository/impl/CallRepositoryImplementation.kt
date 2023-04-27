@@ -2,6 +2,7 @@ package com.hacka.demo.callcenter.call.infra.repository.impl
 
 import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.call.domain.entities.Call
+import com.hacka.demo.callcenter.call.domain.entities.Reason
 import com.hacka.demo.callcenter.call.domain.repository.CallRepository
 import com.hacka.demo.callcenter.call.infra.repository.database.CallDatabase
 import com.hacka.demo.callcenter.flow.domain.repository.FlowRepository
@@ -11,7 +12,6 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.neq
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
-import java.lang.System.out
 import java.util.*
 
 @Repository
@@ -63,6 +63,7 @@ class CallRepositoryImplementation(
                 it[originProblemS] = call.originProblemS!!
                 it[richText] = call.richText!!
                 it[situation] = call.situation!!
+                it[reason] = call.reason!!
 
             }.resultedValues!!
             call
@@ -81,6 +82,7 @@ class CallRepositoryImplementation(
                 it[originProblemS] = call.originProblemS!!
                 it[richText] = call.richText!!
                 it[situation] = call.situation!!
+                it[reason] = call.reason!!
             }
             call
         }
@@ -106,7 +108,8 @@ class CallRepositoryImplementation(
                     situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
-                    richText = it[CallDatabase.richText]
+                    richText = it[CallDatabase.richText],
+                    reason = it[CallDatabase.reason]
                 )
             }
         }
@@ -130,7 +133,34 @@ class CallRepositoryImplementation(
                     situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
-                    richText = it[CallDatabase.richText]
+                    richText = it[CallDatabase.richText],
+                    reason = it[CallDatabase.reason]
+                )
+            }.firstOrNull()!!
+        }
+
+    }
+
+    override fun getCallByUuid(uuid: UUID): Call?{
+        return transaction {
+            CallDatabase.select{ CallDatabase.uuid eq uuid }.map {
+                var flow: Flow? = null
+                if (it[CallDatabase.flow_id] != null) {
+                    flow = flowRepository.getFlowById(it[CallDatabase.flow_id]!!)
+                }
+                Call(
+                    uuid = it[CallDatabase.uuid],
+                    numberCall = it[CallDatabase.numberCall],
+                    title = it[CallDatabase.title],
+                    flow = flow,
+                    contact = it[CallDatabase.contact],
+                    priority = it[CallDatabase.priority],
+                    author = it[CallDatabase.author],
+                    situation = it[CallDatabase.situation],
+                    originProblemN = it[CallDatabase.originProblemN],
+                    originProblemS = it[CallDatabase.originProblemS],
+                    richText = it[CallDatabase.richText],
+                    reason = it[CallDatabase.reason]
                 )
             }.firstOrNull()!!
         }
@@ -141,6 +171,19 @@ class CallRepositoryImplementation(
         return transaction {
             CallDatabase.update({ CallDatabase.uuid eq call.uuid!! }) {
                 it[CallDatabase.situation] = situation!!
+            }
+            call
+        }
+    }
+
+    override fun updateReason(call: Call, situation: Int, reason: Reason): Call? {
+        return transaction {
+            CallDatabase.update({ CallDatabase.uuid eq call.uuid!! }) {
+
+                println(call.reason)
+                it[CallDatabase.reason] = reason.reason
+                it[CallDatabase.situation] = situation!!
+
             }
             call
         }
@@ -167,7 +210,8 @@ class CallRepositoryImplementation(
                     situation = it[CallDatabase.situation],
                     originProblemN = it[CallDatabase.originProblemN],
                     originProblemS = it[CallDatabase.originProblemS],
-                    richText = it[CallDatabase.richText]
+                    richText = it[CallDatabase.richText],
+                    reason = it[CallDatabase.reason]
                 )
             }
         }

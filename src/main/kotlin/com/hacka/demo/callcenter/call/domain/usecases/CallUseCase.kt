@@ -1,12 +1,9 @@
 package com.hacka.demo.callcenter.call.domain.usecases
 
 
-import br.com.lince.singe.callcenter.flow.domain.entities.Flow
 import com.hacka.demo.callcenter.call.domain.entities.Call
-import com.hacka.demo.callcenter.call.domain.usecases.response.AllCallResponse
-import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponse
-import com.hacka.demo.callcenter.call.domain.usecases.response.CallResponseUpdateSituation
-import com.hacka.demo.callcenter.call.domain.usecases.response.FlowResponse
+import com.hacka.demo.callcenter.call.domain.entities.Reason
+import com.hacka.demo.callcenter.call.domain.usecases.response.*
 import java.util.*
 
 interface CallUseCase {
@@ -19,6 +16,8 @@ interface CallUseCase {
     fun getCallById(numberCall: Int): CallResponse
 
     fun updateSituation(numberCall: Int, situation: Int): CallResponseUpdateSituation
+
+    fun updateReason(numberCall: UUID, situation: Int, reason: Reason): CallResponseUpdateReason
 
     fun getFlowById(uuid: UUID): FlowResponse
 

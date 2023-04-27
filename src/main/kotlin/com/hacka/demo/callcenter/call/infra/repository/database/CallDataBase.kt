@@ -20,5 +20,6 @@ object CallDatabase : Table("call") {
     var originProblemS = varchar("problemDescription", 255)
     var richText = varchar("richText", 5000).nullable()
     var situation = integer("situation")
+    var reason = varchar("disapprovalReason", 1000).nullable()
 
 }

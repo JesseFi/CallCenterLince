@@ -18,6 +18,13 @@ data class CallResponseUpdateSituation(
     val message: Exception? = null
 )
 
+data class CallResponseUpdateReason(
+    val call: Call? = null,
+    val situation: Int? = null,
+    val reason: Call? = null,
+    val message: Exception? = null
+)
+
 data class FlowResponse(
     val flow: Flow? = null,
     val message: Exception? = null
